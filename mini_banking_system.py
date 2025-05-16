@@ -18,7 +18,7 @@ def read_users():#read users from users file
             print("password or id wrong")
     return users
 
-def generate_account_number():
+def generate_account_number():#create account number
     acnumbers = set()
     if os.path.exists(ACCOUNTS_FILE):
         with open(ACCOUNTS_FILE, "r") as file:
