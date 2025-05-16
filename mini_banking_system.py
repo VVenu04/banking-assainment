@@ -223,7 +223,7 @@ def login():
     user_Nic = input("Enter ID: ")
     password = input("Enter Password: ")
 
-    if user_Nic == "admin" and password == "1234":
+    if user_Nic == "admin" and password == "1234":#admin id ,password
         print("Welcome Admin")
         admin_menu()
     else:
