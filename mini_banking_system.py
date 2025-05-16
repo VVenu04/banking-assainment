@@ -31,13 +31,14 @@ def generate_account_number():#create account number
             return acc_no
 
 def create_customer_login():
-    user_Nic = input("Enter new customer nic number: ")
+    user_Nic = input("Enter new customer nic number(user id): ")
     password = input("Enter password: ")
+    full_name = input("Enter full name: ")
     with open(USERS_FILE, "a") as file:
-        file.write(f"{user_Nic:10}\t{password:10}\n")
+        file.write(f"{full_name:20},{user_Nic:10},{password:10}\n")
     print("Customer login created.")
 
-    full_name = input("Enter full name: ")
+    
     while True:
         try:
             balance = float(input("enter initial balance (must be > 0): "))
