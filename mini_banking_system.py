@@ -12,10 +12,10 @@ def read_users():#read users from users file
         try:
             with open(USERS_FILE, "r") as file:
                 for line in file:
-                    user_Nic, password = line.strip().split(',')
+                    username,user_Nic, password = line.strip().split(',')
                     users[user_Nic] = password
         except ValueError:
-            print("password or id wrong")
+           print("password or id wrong")
     return users
 
 def generate_account_number():#create account number
@@ -32,7 +32,12 @@ def generate_account_number():#create account number
 
 def create_customer_login():
     user_Nic = input("Enter new customer nic number(user id): ")
-    password = input("Enter password: ")
+    while 1==1:
+        password =input("Enter password: ")
+        if len(password)<6:
+            print("password lent is minimum 6")
+        else:
+            break
     full_name = input("Enter full name: ")
     with open(USERS_FILE, "a") as file:
         file.write(f"{full_name:20},{user_Nic:10},{password:10}\n")
@@ -105,6 +110,15 @@ def view_all_transactions():
             dt, user, ttype, amount, balance = line.strip().split(',')
             print(f"{dt:20} | {user:15} | {ttype:20} | ₹{amount:>10} | ₹{balance:>10}")
 
+def cutomer_list():
+    if not os.path.exists(USERS_FILE):
+        print("customers not found")
+        return
+    with open(USERS_FILE,"r")as file:
+        for line in file:
+            username,idd,password=line.strip().split(",")
+            print(username,idd)
+
 def check_balance(user_Nic):
     acc = find_account(user_Nic)
     if acc:
@@ -167,6 +181,19 @@ def view_my_transactions(user_Nic):
             if user == user_Nic:
                 print(f"{dt:20} | {ttype:20} | ₹{amount:>15} | ₹{balance:>15}")
 
+def change_password(user_Nic):
+    if not os.path.exists(USERS_FILE):
+        print("customers not found")
+        return
+    ols_pass=input("enter the old password")
+
+def check_status(input):
+    if input=="customer":
+        print("your are customer")
+    else:
+        print("you are admin")
+
+
 def admin_menu():
     while True:
         print("\n============ Admin Menu ===============")
@@ -177,6 +204,8 @@ def admin_menu():
         print("5. Withdraw from Account")
         print("6. Check Balance")
         print("7. Logout")
+        print("8.cutomer_list")
+        print("9.check status")
         choice = input("Choose your option: ")
 
         if choice == "1":
@@ -193,6 +222,10 @@ def admin_menu():
             check_balance(input("Enter customer user nic number to check balance: "))
         elif choice == "7":
             break
+        elif choice=="8":
+            cutomer_list()
+        elif choice=="9":
+            check_status(input="admin")
         else:
             print("Invalid option")
 
@@ -204,6 +237,7 @@ def customer_menu(user_Nic):
         print("3. View My Transactions")
         print("4. Check Balance")
         print("5. Logout")
+        print("6.check status")
         choice = input("Choose your option: ")
 
         if choice == "1":
@@ -216,6 +250,9 @@ def customer_menu(user_Nic):
             check_balance(user_Nic)
         elif choice == "5":
             break
+        elif choice=="6":
+            check_status(input="customer")
+           
         else:
             print("Invalid option")
 
@@ -225,12 +262,12 @@ def login():
     password = input("Enter Password: ")
 
     if user_Nic == "admin" and password == "1234":#admin id ,password
-        print("Welcome Admin")
+        print("you are  Admin")
         admin_menu()
     else:
         users = read_users()
         if user_Nic in users and users[user_Nic] == password:
-            print(f"Welcome {user_Nic}!")
+            print(f"Welcome you are customer!")
             customer_menu(user_Nic)
         else:
             print("Invalid login")
